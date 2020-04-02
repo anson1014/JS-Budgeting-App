@@ -116,7 +116,7 @@ var UIController = (function() {
 
         addListItem: function(obj, type) {
 
-            var html, newHtml, element;
+            var html, newHtml, element, sign;
 
             // Create HTML String with placeholder text
             if (type === 'inc') {
@@ -124,17 +124,19 @@ var UIController = (function() {
                 html = '<div class="item clearfix" id="income-%ID%"><div class="item__description">%DESCRIPTION%</div>' +
                        '<div class="right clearfix"><div class="item__value">%VALUE%</div>' +
                        '<div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+                sign = '+ ';
             } else if (type === 'exp') {
                 element = DOMstrings.expenseContainer;
                 html = '<div class="item clearfix" id="expense-%ID%"><div class="item__description">%DESCRIPTION%</div>' +
                        '<div class="right clearfix"><div class="item__value">%VALUE%</div><div class="item__percentage">21%</div>' +
                        '<div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+                sign = '- ';
             }
 
             // Replace the placeholder text with real data
             newHtml = html.replace('%ID%', obj.id);
             newHtml = newHtml.replace('%DESCRIPTION%', obj.description);
-            newHtml = newHtml.replace('%VALUE%', obj.value + '$');
+            newHtml = newHtml.replace('%VALUE%', sign + obj.value + '$');
 
             // Insert HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
@@ -227,9 +229,9 @@ var controller = (function(budgetCtrl, UICtrl) {
         init: function() {
             console.log('Application has started.');
             UICtrl.displayBudget({
-                budget: 0 + '$',
-                totalInc: 0 + '$',
-                totalExp: 0 + '$',
+                budget: 0,
+                totalInc: 0,
+                totalExp: 0,
                 percentage: '---'
             });
             setupEventListeners();
